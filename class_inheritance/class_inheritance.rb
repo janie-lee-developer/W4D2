@@ -43,12 +43,12 @@ class Manager < Employee
     end
         
     def bfs
-        sum = 0
-        queue = [self]
+        sum = 0 #daren_salary #shawna_salary
+        queue = [self]  
         until queue.empty?
             node = queue.shift
-            sum += node.salary unless node.boss.nil?
-            queue.concat(node.employees) unless node.employees.empty?
+            sum += node.salary unless node.boss.nil? 
+            queue.concat(node.employees) if node.is_a?(Manager)
         end
         sum
      end
@@ -63,6 +63,6 @@ ned.add_employee(darren)
 darren.add_employee(shawna)
 darren.add_employee(david)
 
-ned.bonus(5) # => 500_000
-darren.bonus(4) # => 88_000
-david.bonus(3) # => 30_000
+p ned.bonus(5) # => 500_000
+p darren.bonus(4) # => 88_000
+p david.bonus(3) # => 30_000
