@@ -1,5 +1,7 @@
+require "byebug"
 class Employee
-    attr_reader :name, :title, :salary, :boss
+    attr_reader :name, :title, :salary
+    attr_accessor :boss
 
     def initialize(name, title, salary, boss)
         @name = name
@@ -7,6 +9,13 @@ class Employee
         @salary = salary
         @boss = boss
     end
+    
+    def boss=(boss)
+    @boss = boss
+    boss.add_employee(self) unless boss.nil?
+
+    boss
+  end
 
     def bonus(multiplier)
         bonus = (@salary) * multiplier
@@ -16,26 +25,44 @@ class Employee
 end
 
 class Manager < Employee
-    def initialize
-        @employees = [ ]
+    attr_reader :employees
+    def initialize(name, title, salary, boss)
+        super
+        @employees = []
     end
 
-    def bonus
-        
-        
-
+    def bonus(multiplier)
+        total_salary = bfs
+        bonus = total_salary * multiplier
     end
 
-    private
+    def add_employee(employee_instance)
+        @employees << employee_instance
+
+        employee_instance
+    end
+        
     def bfs
         sum = 0
-
-        nodes = [self]
-        until nodes.empty?
-            node = nodes.shift
-            
-            sum += self.salary if self.boss
-            nodes.concat(node.employees)
+        queue = [self]
+        until queue.empty?
+            node = queue.shift
+            sum += node.salary unless node.boss.nil?
+            queue.concat(node.employees) unless node.employees.empty?
         end
+        sum
      end
 end
+
+ned = Manager.new("Ned", "Founder", 1000000 , nil)
+darren = Manager.new("Darren", "TA Manager", 78000, "Ned")
+shawna = Employee.new("Shawna", "TA", 12000, "Darren")
+david = Employee.new("David", "TA", 10000, "Darren")
+
+ned.add_employee(darren)
+darren.add_employee(shawna)
+darren.add_employee(david)
+
+ned.bonus(5) # => 500_000
+darren.bonus(4) # => 88_000
+david.bonus(3) # => 30_000
