@@ -1,4 +1,4 @@
 class Rook
-    def initialize 
+      def initialize(color, board,pos )
     end
 end

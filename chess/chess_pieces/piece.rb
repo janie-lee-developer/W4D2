@@ -21,7 +21,7 @@ class Piece
   end
 
   def valid_moves
-    possible_moves = moves
+    possible_moves = moves [[1,1][1,2]]
     moves = possible_moves.reject { |move| move_into_check?(move) }
     moves
   end
