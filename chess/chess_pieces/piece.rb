@@ -1,14 +1,5 @@
-require_relative "nullpiece"
-require_relative "pieces/rook_bishop_queen"
-module Slideable
-
-end
-
-module Stepable
-
-end
-
 class Piece
+    
     def initialize(color, board, pos)
         @color = color
         @board = board

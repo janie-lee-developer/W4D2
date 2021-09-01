@@ -1,8 +1,11 @@
-require_relative "piece"
+require_relative "pieces"
+
 class Board
-    def initialize
-        @rows = Array.new(8){Array.new(8)}
-        @null_piece = NullPiece.new
+    attr_reader :rows
+
+    def initialize(fill_board = true)
+        @sentinel = NullPiece.instance
+        make_starting_grid(fill_board)
     end
 
     def [](pos)  #board_1 [1,1]
@@ -15,21 +18,40 @@ class Board
         @rows[x][y] ||= Piece.new(:black, @rows, pos)
     end
 
-    def move_piece(start_pos, end_pos)
+    def move_piece(start_pos, end_pos, color) #:W, B
         #find start_pos has a piece
-            # if true cannot move to end_point
-        if self[start_pos].nil? 
-            raise "No available piece" 
+            # if true cannot move to end_point #[1,1]
+        
+        if self[end_pos] =
+            raise "No available piece at position" 
         else
-         self[end_pos] = self[start_pos]
-         self[start_pos] = @null_piece
+            self[end_pos] = self[start_pos]
+            self[start_pos] = @null_piece
         end
-
     end
 
+    def make_starting_grid(fill_board)
+        board = Array.new(8){Array.new(8)}
+        if fill_board #true
+            (2..5).each do |i|
+                board[i].map! do |ele|
+                    ele = @sentinel
+                end
+            end
+        end
+       
+        board.each do |sub_arr|
+            sub_arr.map do |ele|
+                if ele.nil?
+                    el = 
+                end
+            end
+        end
+        p board
+    end
 end
 
 board_1 = Board.new
 
-p board_1[[5,6]]
-p board_1.move_piece([2,0],[3,4])
+
+
